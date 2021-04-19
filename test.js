@@ -1,18 +1,18 @@
 // Создаем функцию, которая отвечает за тренировку модели
 async function doTraining(model) {
-    // Обозначаем model.fit() и передаем в нее значения x и y
-    const history = await model.fit(x, y, {
-        epochs: 400, // Количество эпох
-        /**
-         * Ведем статистику по данной модели
-         * Отслеживаем количество эпох и соответствующие потери
-         */
-        callbacks: {
-            onEpochEnd: async (epoch, logs) => {
-                console.log("Эпоха:" + epoch + " Потери:" + logs.loss);
-            },
-        },
-    });
+  // Обозначаем model.fit() и передаем в нее значения x и y
+  const history = await model.fit(x, y, {
+    epochs: 400, // Количество эпох
+    /**
+     * Ведем статистику по данной модели
+     * Отслеживаем количество эпох и соответствующие потери
+     */
+    callbacks: {
+      onEpochEnd: async (epoch, logs) => {
+        console.log('Эпоха:' + epoch + ' Потери:' + logs.loss);
+      },
+    },
+  });
 }
 // Регаем модель - sequential(). Модель последовательности слоев
 const model = tf.sequential();
@@ -24,7 +24,7 @@ model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
  * Тут мы используем функцию потерь - meanSquaredError(), среднеквадратическая ошибка
  * В качестве оптимизатора был использован - sgd(стохастическай градиентный спуск)
  */
-model.compile({ loss: "meanSquaredError", optimizer: "sgd" });
+model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
 /**
  * Обозначаем структуру и архитектуру элементов.
  * Обозначаем данные входного и выходного значения.
@@ -37,12 +37,12 @@ const x = tf.tensor2d([-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0], [7, 1]); // x
 const y = tf.tensor2d([-13.0, -8.0, -3.0, 2.0, 7.0, 12.0, 17.0], [7, 1]); // y
 // Активация функции
 doTraining(model).then(() => {
-    /**
-     * После завершения, console.log выводит значения,
-     * для которого мы хотим предсказать значение функции.
-     * То есть для [11] мы хотим предсказать значение y.
-     */
-    console.log(model.predict(tf.tensor2d([11], [1, 1])).toString());
+  /**
+   * После завершения, console.log выводит значения,
+   * для которого мы хотим предсказать значение функции.
+   * То есть для [11] мы хотим предсказать значение y.
+   */
+  console.log(model.predict(tf.tensor2d([11], [1, 1])).toString());
 });
 
 /**
